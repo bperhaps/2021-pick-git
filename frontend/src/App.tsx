@@ -1,16 +1,23 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
 
-import { theme, GlobalStyle } from "./App.style";
+import { PAGE_URL } from "./constants/urls";
+import NavigationHeader from "./components/@layout/NavigationHeader/NavigationHeader";
+import HomeFeedPage from "./pages/HomeFeedPage/HomeFeedPage";
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <h1>Hello</h1>
-      </BrowserRouter>
-    </ThemeProvider>
+    <BrowserRouter>
+      <Switch>
+        <Route path={[PAGE_URL.HOME, PAGE_URL.PROFILE]}>
+          <NavigationHeader isLoggedIn={false} />
+        </Route>
+      </Switch>
+      <Switch>
+        <Route exact path={PAGE_URL.HOME}>
+          <HomeFeedPage />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 };
 
