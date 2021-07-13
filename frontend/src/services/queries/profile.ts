@@ -8,5 +8,9 @@ import { requestGetSelfProfile } from "../requests";
 export const useSelfProfileQuery = () => {
   const { accessToken } = useLocalStorage();
 
+  if (!accessToken) {
+    throw Error("에러!");
+  }
+
   return useQuery<Profile>(QUERY.GET_SELF_PROFILE, () => requestGetSelfProfile(accessToken));
 };

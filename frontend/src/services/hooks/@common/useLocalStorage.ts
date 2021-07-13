@@ -1,5 +1,5 @@
 const useLocalStorage = () => {
-  const accessToken = localStorage.getItem("accessToken") ?? "testToken";
+  const accessToken = localStorage.getItem("accessToken");
 
   return {
     accessToken,
