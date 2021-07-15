@@ -7,19 +7,6 @@ pipeline {
     }
 
     stages {
-        stage('Prepare') {
-            when { changeset "backend/**" }
-            steps {
-                echo 'get submodule...'
-                dir('./backend/pick-git') {
-                  sh '''
-                      git submodule init
-                      git submodule update
-                  '''
-                }
-            }
-        }
-
 
         stage('Build') {
             when { changeset "backend/**" }
