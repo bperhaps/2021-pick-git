@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-       GITHUB_TOKEN = credentials('bperhaps-github')
        INSTANCE_PEM_PATH = credentials('instances-pem-path')
        HOST = credentials('HOST_PROD')
     }
