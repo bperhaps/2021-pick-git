@@ -8,7 +8,7 @@ pipeline {
 
     stages {
         stage('Build') {
-            when { changeset "s3proxy/**" }
+            when { changeset "s3-proxy/**" }
             steps {
                 echo 'build backend...'
 
@@ -21,11 +21,11 @@ pipeline {
         }
 
         stage('Test') {
-            when { changeset "s3proxy/**" }
+            when { changeset "s3-proxy/**" }
             steps {
                 echo 'test backend...'
 
-                dir('./s3proxy/s3proxy') {
+                dir('./s3-proxy/s3-proxy') {
                     sh '''
                         ./gradlew test
                     '''
@@ -34,11 +34,11 @@ pipeline {
         }
 
         stage('Deploy') {
-            when { changeset "s3proxy/**" }
+            when { changeset "s3-proxy/**" }
             steps {
                 echo 'deploying backend...'
 
-                dir('./s3proxy/s3proxy/script') {
+                dir('./s3-proxy/s3-proxy/script') {
                   sh '''
                     chmod 755 ./deploy_script.sh
                     ./deploy_script.sh -c ~/.ssh/EC2-DEV-PICK-GIT.pem -h $HOST -d prod
