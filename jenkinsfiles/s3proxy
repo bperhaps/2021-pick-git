@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo 'build backend...'
 
-                dir('./backend/pick-git') {
+                dir('./s3-proxy/s3-proxy') {
                     sh '''
                         ./gradlew -x test clean build
                     '''
