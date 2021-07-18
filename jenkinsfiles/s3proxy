@@ -3,26 +3,12 @@ pipeline {
 
     environment {
        INSTANCE_PEM_PATH = credentials('instances-pem-path')
-       HOST = credentials('HOST_DEV')
+       HOST = credentials('HOST_S3_PROXY')
     }
 
     stages {
-        stage('Prepare') {
-            when { changeset "backend/**" }
-            steps {
-                echo 'get submodule...'
-                dir('./backend/pick-git') {
-                  sh '''
-                      git submodule init
-                      git submodule update
-                  '''
-                }
-            }
-        }
-
-
         stage('Build') {
-            when { changeset "backend/**" }
+            when { changeset "s3-proxy/**" }
             steps {
                 echo 'build backend...'
 
@@ -35,11 +21,11 @@ pipeline {
         }
 
         stage('Test') {
-            when { changeset "backend/**" }
+            when { changeset "s3-proxy/**" }
             steps {
                 echo 'test backend...'
 
-                dir('./backend/pick-git') {
+                dir('./s3-proxy/s3-proxy') {
                     sh '''
                         ./gradlew test
                     '''
@@ -48,11 +34,11 @@ pipeline {
         }
 
         stage('Deploy') {
-            when { changeset "backend/**" }
+            when { changeset "s3-proxy/**" }
             steps {
                 echo 'deploying backend...'
 
-                dir('./backend/pick-git/script') {
+                dir('./s3-proxy/s3-proxy/script') {
                   sh '''
                     chmod 755 ./deploy_script.sh
                     ./deploy_script.sh -c ~/.ssh/EC2-DEV-PICK-GIT.pem -h $HOST -d prod
